@@ -1,6 +1,8 @@
 export const environment ={
     production: false,
     weatherApiBaseUrl:'https://weatherapi-com.p.rapidapi.com/current.json',
+    weatherApiAstroUrl:'https://weatherapi-com.p.rapidapi.com/astronomy.json',
+    weatherApiForecastUrl:'https://weatherapi-com.p.rapidapi.com/forecast.json',
     XRapidAPIHostHeaderName:'X-RapidAPI-Host',
     XRapidAPIHostHeaderValue:'weatherapi-com.p.rapidapi.com',
     XRapidAPIKeyHeaderName:'X-RapidAPI-Key',

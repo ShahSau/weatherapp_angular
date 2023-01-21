@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { faTemperatureLow } from '@fortawesome/free-solid-svg-icons';
-import { tap } from 'rxjs';
+import { tap, forkJoin } from 'rxjs';
 import { WeatherService } from './services/weather.service';
 import { WeatherData} from './models/weather.model'
+import { AstroData } from './models/astro.model';
+import { ForecastData } from './models/forecast.model';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,30 +13,32 @@ import { WeatherData} from './models/weather.model'
 })
 export class AppComponent implements OnInit{
 
-  constructor(
-    private weatherService: WeatherService
-  ){}
   cityName:string = 'Tampere';
-  weatherData?: WeatherData ;
-  ngOnInit(): void {
-    this.getWeatherDate(this.cityName)
-    this.cityName =''
-    // this.weatherService.getWeatherData('helsinki').pipe(
-    //   tap((res: any)=>console.log(res)
-    //   )
-    // ).subscribe()
-  }
+  weatherData?: WeatherData;
+  astroData?: AstroData;
+  forecast?: ForecastData;
   title = 'weatherApp';
   faTemperatureLow = faTemperatureLow;
 
+  constructor(
+    private weatherService: WeatherService
+  ){}
+  
+  ngOnInit(): void {
+    this.getWeatherDate(this.cityName)
+    this.cityName =''
+  }
+
   private getWeatherDate(cityName:string){
-    this.weatherService.getWeatherData(cityName).subscribe({
-      next:(response)=>{
-        console.log("ddgdgh", response)
-        this.weatherData = response
-        
-      }
+    const realtime = this.weatherService.getWeatherData(cityName)
+    const astro = this.weatherService.getAstroData(cityName)
+    const forecast = this.weatherService.getDataForecast(cityName)
+    forkJoin([realtime,astro,forecast]).subscribe(result =>{
+      this.weatherData = result[0];
+      this.astroData = result[1];
+      this.forecast = result[2];
     })
+    // console.log('jgjgjgj',  this.forecast)
   }
   
   onSubmit(){
