@@ -4,8 +4,8 @@
   </form>
 <div class="container" *ngIf="weatherData && astroData && forecast">
   <div class="upper-data">
-    <img src="../assets/snow.jpg" alt="snow" *ngIf="weatherData.current.temp_c > 15">
-    <img src="../assets/sunny.jpg" alt="sunny" *ngIf="weatherData.current.temp_c<15">
+    <img src="../assets/snow.jpg" alt="snow" *ngIf="weatherData.current.temp_c >= 15">
+    <img src="../assets/sunny.jpg" alt="sunny" *ngIf="weatherData.current.temp_c < 15">
         <div class="weather-data">
           <div class="location">{{weatherData.location.name}}</div>
           <div class="temperature">{{weatherData.current.temp_c | number:'1.0-0'}}°C</div>
